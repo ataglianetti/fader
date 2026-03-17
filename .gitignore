@@ -29,6 +29,9 @@ Desktop.ini
 *.log
 ~/.clui-debug.log
 
+# Runtime
+.clui.pid
+
 # Temporary files
 *.tmp
 *.bak

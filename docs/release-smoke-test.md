@@ -44,7 +44,7 @@ npm run build      # production build — must exit 0 with no errors
 ### Startup
 - [ ] `npm run dev` or `./start.command` launches the app
 - [ ] Floating pill appears at bottom-center of screen
-- [ ] `Alt+Space` toggles visibility
+- [ ] `⌥ + Space` toggles visibility (fallback: `Cmd+Shift+K`)
 - [ ] Tray icon appears in menu bar
 - [ ] Tray menu shows Quit option
 

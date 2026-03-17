@@ -296,7 +296,7 @@ function EmptyState() {
 
   return (
     <div
-      className="flex flex-col items-center justify-center px-4 py-8"
+      className="flex flex-col items-center justify-center px-4 py-3 gap-1.5"
       style={{ minHeight: 80 }}
     >
       <button
@@ -312,6 +312,9 @@ function EmptyState() {
         <FolderOpen size={13} />
         Choose folder
       </button>
+      <span className="text-[11px]" style={{ color: colors.textTertiary }}>
+        Press <strong style={{ color: colors.textSecondary }}>⌥ + Space</strong> to show/hide this overlay
+      </span>
     </div>
   )
 }

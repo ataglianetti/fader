@@ -10,7 +10,7 @@ A lightweight, transparent desktop overlay for [Claude Code](https://docs.anthro
 
 ## Features
 
-- **Floating overlay** — transparent, click-through window that stays on top. Toggle with `Alt+Space`.
+- **Floating overlay** — transparent, click-through window that stays on top. Toggle with `⌥ + Space` (fallback: `Cmd+Shift+K`).
 - **Multi-tab sessions** — each tab spawns its own `claude -p` process with independent session state.
 - **Permission approval UI** — intercepts tool calls via PreToolUse HTTP hooks so you can review and approve/deny from the UI.
 - **Conversation history** — browse and resume past Claude Code sessions.
@@ -60,29 +60,30 @@ git clone https://github.com/lcoutodemos/clui-cc.git
 cd clui-cc
 ```
 
-**3) Start the app**
+**3) Set up (first time only)**
+
+```bash
+./setup.command
+```
+
+This checks your environment, prints exact fix commands if something is missing, and installs dependencies.
+
+**4) Launch the app**
 
 ```bash
 ./start.command
 ```
 
-Optional (install voice dependency automatically first):
+> **Shortcut:** Press **⌥ + Space** (Option + Space) to show/hide the overlay at any time.  
+> If your macOS input source claims that combo, use **Cmd+Shift+K**.
 
-```bash
-./start.command --with-voice
-```
-
-`start.command` runs environment checks first and prints exact fix commands if something is missing. If checks pass, it installs dependencies, builds, and launches the app.
-
-To close the app:
+To close the app, use the tray icon (Quit) or run:
 
 ```bash
 ./stop.command
 ```
 
-You can also double-click `start.command` and `stop.command` from Finder.
-
-Toggle the overlay: **Alt+Space** (or **Cmd+Shift+K** as fallback).
+You can also double-click these `.command` files from Finder.
 
 <details>
 <summary><strong>Setup Prerequisites (Detailed)</strong></summary>

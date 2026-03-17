@@ -114,7 +114,7 @@ claude --version
 claude
 ```
 
-## `Alt+Space` Does Not Toggle
+## `⌥ + Space` Does Not Toggle
 
 Grant Accessibility permissions:
 
@@ -132,5 +132,6 @@ Expected when offline. Marketplace needs internet access; core app features cont
 
 Try:
 
+- `⌥ + Space`
 - `Cmd+Shift+K`
 - Confirm app is running from the menu bar tray
