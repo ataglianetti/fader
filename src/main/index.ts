@@ -157,6 +157,38 @@ function createWindow(): void {
   }
 }
 
+function showWindow(source = 'unknown'): void {
+  if (!mainWindow || mainWindow.isVisible()) return
+  const toggleId = ++toggleSequence
+
+  // Position on the display where the cursor currently is (not always primary)
+  const cursor = screen.getCursorScreenPoint()
+  const display = screen.getDisplayNearestPoint(cursor)
+  const { width: sw, height: sh } = display.workAreaSize
+  const { x: dx, y: dy } = display.workArea
+  mainWindow.setBounds({
+    x: dx + Math.round((sw - BAR_WIDTH) / 2),
+    y: dy + sh - PILL_HEIGHT - PILL_BOTTOM_MARGIN,
+    width: BAR_WIDTH,
+    height: PILL_HEIGHT,
+  })
+
+  // Re-assert space membership on every show: the flag can be lost after a
+  // hide() cycle on some macOS/Electron version combinations.
+  mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true })
+
+  if (SPACES_DEBUG) {
+    log(`[spaces] showWindow#${toggleId} source=${source} move-to-display id=${display.id}`)
+    snapshotWindowState(`showWindow#${toggleId} pre-show`)
+  }
+  // As an accessory app (app.dock.hide), show() + focus gives keyboard
+  // without deactivating the active app — hover preserved everywhere.
+  mainWindow.show()
+  mainWindow.webContents.focus()
+  broadcast(IPC.WINDOW_SHOWN)
+  if (SPACES_DEBUG) scheduleToggleSnapshots(toggleId, 'show')
+}
+
 function toggleWindow(source = 'unknown'): void {
   if (!mainWindow) return
   const toggleId = ++toggleSequence
@@ -165,32 +197,11 @@ function toggleWindow(source = 'unknown'): void {
     snapshotWindowState(`toggle#${toggleId} pre`)
   }
 
-  // Pure toggle: visible → hide, not visible → show. No focus-based branching.
   if (mainWindow.isVisible()) {
     mainWindow.hide()
     if (SPACES_DEBUG) scheduleToggleSnapshots(toggleId, 'hide')
   } else {
-    // Position on the display where the cursor currently is (not always primary)
-    const cursor = screen.getCursorScreenPoint()
-    const display = screen.getDisplayNearestPoint(cursor)
-    const { width: sw, height: sh } = display.workAreaSize
-    const { x: dx, y: dy } = display.workArea
-    mainWindow.setBounds({
-      x: dx + Math.round((sw - BAR_WIDTH) / 2),
-      y: dy + sh - PILL_HEIGHT - PILL_BOTTOM_MARGIN,
-      width: BAR_WIDTH,
-      height: PILL_HEIGHT,
-    })
-    if (SPACES_DEBUG) {
-      log(`[spaces] toggle#${toggleId} move-to-display id=${display.id}`)
-      snapshotWindowState(`toggle#${toggleId} pre-show`)
-    }
-    // As an accessory app (app.dock.hide), show() + focus gives keyboard
-    // without deactivating the active app — hover preserved everywhere.
-    mainWindow.show()
-    mainWindow.webContents.focus()
-    broadcast(IPC.WINDOW_SHOWN)
-    if (SPACES_DEBUG) scheduleToggleSnapshots(toggleId, 'show')
+    showWindow(source)
   }
 }
 
@@ -944,12 +955,16 @@ app.whenReady().then(async () => {
   tray.on('click', () => toggleWindow('tray click'))
   tray.setContextMenu(
     Menu.buildFromTemplate([
-      { label: 'Show Clui CC', click: () => toggleWindow('tray menu Show Clui CC') },
+      { label: 'Show Clui CC', click: () => showWindow('tray menu') },
       { label: 'Quit', click: () => { app.quit() } },
     ])
   )
 
-  app.on('activate', () => toggleWindow('app activate'))
+  // app 'activate' fires when macOS brings the app to the foreground (e.g. after
+  // webContents.focus() triggers applicationDidBecomeActive on some macOS versions).
+  // Using showWindow here instead of toggleWindow prevents the re-entry race where
+  // a summon immediately hides itself because activate fires mid-show.
+  app.on('activate', () => showWindow('app activate'))
 })
 
 app.on('will-quit', () => {
