@@ -1092,11 +1092,11 @@ app.whenReady().then(async () => {
   const trayIcon = nativeImage.createFromPath(trayIconPath)
   trayIcon.setTemplateImage(true)
   tray = new Tray(trayIcon)
-  tray.setToolTip('Clui CC — Claude Code UI')
+  tray.setToolTip('Fader — AI Code Assistant')
   tray.on('click', () => toggleWindow('tray click'))
   tray.setContextMenu(
     Menu.buildFromTemplate([
-      { label: 'Show Clui CC', click: () => showWindow('tray menu') },
+      { label: 'Show Fader', click: () => showWindow('tray menu') },
       { label: 'Quit', click: () => { app.quit() } },
     ])
   )

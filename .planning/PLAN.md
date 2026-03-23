@@ -7,7 +7,8 @@
 - Fork CLUI-CC, rename to Fader
 - Audit the React component tree — map what renders output, input, tabs, permissions
 - Extract all Claude-specific code into `src/drivers/claude/`
-- Define the `Driver` interface: spawn, kill, send, onEvent, resume, capabilities
+- Define the `Driver` interface: spawn, kill, send, onEvent, resume, capabilities, availableModels
+- Model list must be driver-supplied, not hardcoded globally. Each driver declares its own available models (Claude: Opus/Sonnet/Haiku, Codex: GPT-4o/o3/o4-mini/etc). The UI model picker renders dynamically from the active driver. "Default" = let the backend decide. Model preference persists per-driver so switching backends doesn't clobber your choice.
 - Wrap existing Claude Code integration as `ClaudeDriver` implementing that interface
 - Verify nothing broke — Fader with Claude Code should behave identically to CLUI
 

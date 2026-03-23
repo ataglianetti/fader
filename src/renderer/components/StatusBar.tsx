@@ -60,7 +60,7 @@ function ModelPicker() {
     if (tab?.sessionModel) {
       return getModelDisplayLabel(tab.sessionModel)
     }
-    return AVAILABLE_MODELS[0].label
+    return 'Default'
   })()
 
   return (
@@ -102,8 +102,26 @@ function ModelPicker() {
           }}
         >
           <div className="py-1">
+            {/* Default option — lets Claude Code pick the model */}
+            {(() => {
+              const isDefault = !preferredModel
+              return (
+                <button
+                  onClick={() => { setPreferredModel(null); setOpen(false) }}
+                  className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] transition-colors"
+                  style={{
+                    color: isDefault ? colors.textPrimary : colors.textSecondary,
+                    fontWeight: isDefault ? 600 : 400,
+                  }}
+                >
+                  Default{tab?.sessionModel ? ` (${getModelDisplayLabel(tab.sessionModel)})` : ''}
+                  {isDefault && <Check size={12} style={{ color: colors.accent }} />}
+                </button>
+              )
+            })()}
+            <div className="mx-2 my-0.5" style={{ height: 1, background: colors.popoverBorder }} />
             {AVAILABLE_MODELS.map((m) => {
-              const isSelected = preferredModel === m.id || (!preferredModel && m.id === AVAILABLE_MODELS[0].id)
+              const isSelected = preferredModel === m.id
               return (
                 <button
                   key={m.id}
