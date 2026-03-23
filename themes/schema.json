@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fader Theme",
+  "description": "Theme definition for Fader — themeable AI coding CLI wrapper",
+  "type": "object",
+  "required": ["name", "id", "version", "dark", "light", "typography"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Display name shown in theme picker"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique identifier, kebab-case"
+    },
+    "version": {
+      "type": "string",
+      "description": "Semver version of this theme"
+    },
+    "author": {
+      "type": "string",
+      "description": "Theme author or 'Adapted from [source]'"
+    },
+    "license": {
+      "type": "string",
+      "description": "License of the original palette"
+    },
+    "branding": {
+      "type": "object",
+      "properties": {
+        "logo": { "type": "string", "description": "Path to logo SVG/PNG relative to theme dir" },
+        "windowTitle": { "type": "string", "description": "Custom window title" },
+        "welcomeMessage": { "type": "string", "description": "Shown on empty state / new tab" }
+      }
+    },
+    "defaultMode": {
+      "type": "string",
+      "enum": ["dark", "light", "system"],
+      "default": "system",
+      "description": "Default color mode. 'system' follows OS preference."
+    },
+    "typography": {
+      "type": "object",
+      "required": ["fontFamily", "fontMono", "fontSize"],
+      "properties": {
+        "fontFamily": { "type": "string" },
+        "fontMono": { "type": "string" },
+        "fontSize": { "type": "string" },
+        "lineHeight": { "type": "string", "default": "1.6" }
+      }
+    },
+    "dark": { "$ref": "#/$defs/colorScheme" },
+    "light": { "$ref": "#/$defs/colorScheme" }
+  },
+  "$defs": {
+    "colorScheme": {
+      "type": "object",
+      "required": [
+        "bgPrimary", "bgSecondary", "bgTertiary",
+        "accent", "accentHover",
+        "textPrimary", "textSecondary", "textMuted",
+        "success", "error", "warning",
+        "border", "borderActive",
+        "codeBlockBg", "selection"
+      ],
+      "properties": {
+        "bgPrimary": { "type": "string", "description": "Main background" },
+        "bgSecondary": { "type": "string", "description": "Sidebar, panels, input areas" },
+        "bgTertiary": { "type": "string", "description": "Elevated surfaces, tooltips, dropdowns" },
+        "accent": { "type": "string", "description": "Primary accent — buttons, links, focus rings" },
+        "accentHover": { "type": "string", "description": "Accent on hover/active" },
+        "textPrimary": { "type": "string", "description": "Main text" },
+        "textSecondary": { "type": "string", "description": "Secondary text, labels" },
+        "textMuted": { "type": "string", "description": "Placeholder, disabled, timestamps" },
+        "success": { "type": "string", "description": "Success states, confirmations" },
+        "error": { "type": "string", "description": "Error states, destructive actions" },
+        "warning": { "type": "string", "description": "Warnings, caution states" },
+        "border": { "type": "string", "description": "Default borders, dividers" },
+        "borderActive": { "type": "string", "description": "Active/focused borders" },
+        "codeBlockBg": { "type": "string", "description": "Code block and terminal output background" },
+        "selection": { "type": "string", "description": "Text selection highlight (use alpha for transparency)" },
+        "scrollbarThumb": { "type": "string", "description": "Scrollbar thumb color" },
+        "scrollbarTrack": { "type": "string", "description": "Scrollbar track color" }
+      }
+    }
+  }
+}

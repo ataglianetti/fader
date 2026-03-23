@@ -1,0 +1,52 @@
+{
+  "name": "Minimal",
+  "id": "minimal",
+  "version": "1.0.0",
+  "author": "Adapted from Minimal by @kepano",
+  "license": "MIT",
+  "defaultMode": "system",
+  "typography": {
+    "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "fontMono": "JetBrains Mono, SF Mono, Menlo, monospace",
+    "fontSize": "14px",
+    "lineHeight": "1.6"
+  },
+  "dark": {
+    "bgPrimary": "#262626",
+    "bgSecondary": "#212121",
+    "bgTertiary": "#2e2e2e",
+    "accent": "#879eaa",
+    "accentHover": "#9ab3bf",
+    "textPrimary": "#d1d1d1",
+    "textSecondary": "#b3b3b3",
+    "textMuted": "#999999",
+    "success": "#a8c373",
+    "error": "#d04255",
+    "warning": "#e5b567",
+    "border": "#353535",
+    "borderActive": "#505050",
+    "codeBlockBg": "#212121",
+    "selection": "hsla(201, 70%, 40%, 0.3)",
+    "scrollbarThumb": "#404040",
+    "scrollbarTrack": "#262626"
+  },
+  "light": {
+    "bgPrimary": "#ffffff",
+    "bgSecondary": "#f5f5f5",
+    "bgTertiary": "#ebebeb",
+    "accent": "#6b8ea0",
+    "accentHover": "#597a8c",
+    "textPrimary": "#0f0f0f",
+    "textSecondary": "#828282",
+    "textMuted": "#b5b5b5",
+    "success": "#699b3e",
+    "error": "#c13040",
+    "warning": "#c99530",
+    "border": "#e6e6e6",
+    "borderActive": "#c0c0c0",
+    "codeBlockBg": "#f5f5f5",
+    "selection": "hsla(201, 50%, 76%, 0.3)",
+    "scrollbarThumb": "#c5c5c5",
+    "scrollbarTrack": "#ffffff"
+  }
+}

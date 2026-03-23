@@ -1,0 +1,52 @@
+{
+  "name": "Catppuccin",
+  "id": "catppuccin",
+  "version": "1.0.0",
+  "author": "Adapted from Catppuccin (catppuccin.com)",
+  "license": "MIT",
+  "defaultMode": "system",
+  "typography": {
+    "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "fontMono": "JetBrains Mono, SF Mono, Menlo, monospace",
+    "fontSize": "14px",
+    "lineHeight": "1.6"
+  },
+  "dark": {
+    "bgPrimary": "#1e1e2e",
+    "bgSecondary": "#181825",
+    "bgTertiary": "#313244",
+    "accent": "#89b4fa",
+    "accentHover": "#74c7ec",
+    "textPrimary": "#cdd6f4",
+    "textSecondary": "#bac2de",
+    "textMuted": "#9399b2",
+    "success": "#a6e3a1",
+    "error": "#f38ba8",
+    "warning": "#f9e2af",
+    "border": "#313244",
+    "borderActive": "#45475a",
+    "codeBlockBg": "#181825",
+    "selection": "hsla(217, 92%, 76%, 0.2)",
+    "scrollbarThumb": "#45475a",
+    "scrollbarTrack": "#1e1e2e"
+  },
+  "light": {
+    "bgPrimary": "#eff1f5",
+    "bgSecondary": "#e6e9ef",
+    "bgTertiary": "#dce0e8",
+    "accent": "#7287fd",
+    "accentHover": "#5c6de0",
+    "textPrimary": "#4c4f69",
+    "textSecondary": "#5c5f77",
+    "textMuted": "#8c8fa1",
+    "success": "#40a02b",
+    "error": "#d20f39",
+    "warning": "#df8e1d",
+    "border": "#ccd0da",
+    "borderActive": "#bcc0cc",
+    "codeBlockBg": "#e6e9ef",
+    "selection": "hsla(220, 91%, 54%, 0.15)",
+    "scrollbarThumb": "#bcc0cc",
+    "scrollbarTrack": "#eff1f5"
+  }
+}

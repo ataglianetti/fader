@@ -1,0 +1,52 @@
+{
+  "name": "Dracula",
+  "id": "dracula",
+  "version": "1.0.0",
+  "author": "Adapted from Dracula Theme (draculatheme.com)",
+  "license": "MIT",
+  "defaultMode": "dark",
+  "typography": {
+    "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+    "fontMono": "Fira Code, JetBrains Mono, SF Mono, monospace",
+    "fontSize": "14px",
+    "lineHeight": "1.6"
+  },
+  "dark": {
+    "bgPrimary": "#282a36",
+    "bgSecondary": "#20212b",
+    "bgTertiary": "#343746",
+    "accent": "#bd93f9",
+    "accentHover": "#caa8fa",
+    "textPrimary": "#f8f8f2",
+    "textSecondary": "#c0c0c0",
+    "textMuted": "#6272a4",
+    "success": "#50fa7b",
+    "error": "#ff5555",
+    "warning": "#f1fa8c",
+    "border": "#44475a",
+    "borderActive": "#6272a4",
+    "codeBlockBg": "#20212b",
+    "selection": "hsla(265, 89%, 78%, 0.25)",
+    "scrollbarThumb": "#44475a",
+    "scrollbarTrack": "#282a36"
+  },
+  "light": {
+    "bgPrimary": "#f8f8f2",
+    "bgSecondary": "#ffffff",
+    "bgTertiary": "#eaeaeb",
+    "accent": "#7c3aed",
+    "accentHover": "#6d28d9",
+    "textPrimary": "#282a36",
+    "textSecondary": "#44475a",
+    "textMuted": "#9ca0b0",
+    "success": "#2e8b57",
+    "error": "#dc2626",
+    "warning": "#ca8a04",
+    "border": "#d8d8d8",
+    "borderActive": "#a0a4b8",
+    "codeBlockBg": "#f0f0f2",
+    "selection": "hsla(265, 89%, 50%, 0.15)",
+    "scrollbarThumb": "#c0c0c8",
+    "scrollbarTrack": "#f8f8f2"
+  }
+}
