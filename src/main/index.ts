@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain, dialog, screen, globalShortcut, Tray, Menu, nativeImage, nativeTheme, shell, systemPreferences } from 'electron'
 import { join } from 'path'
-import { existsSync, readdirSync, statSync, createReadStream } from 'fs'
+import { existsSync, readdirSync, readFileSync, statSync, createReadStream } from 'fs'
 import { createInterface } from 'readline'
 import { homedir } from 'os'
 import { ControlPlane } from './claude/control-plane'
@@ -987,6 +987,25 @@ ipcMain.handle(IPC.GET_THEME, () => {
 
 nativeTheme.on('updated', () => {
   broadcast(IPC.THEME_CHANGED, nativeTheme.shouldUseDarkColors)
+})
+
+ipcMain.handle(IPC.LIST_THEMES, () => {
+  // In dev: __dirname is dist/main/, themes/ is at project root
+  // In production: app.getAppPath() points to the asar/app root
+  const themesDir = join(app.isPackaged ? app.getAppPath() : join(__dirname, '../..'), 'themes')
+  if (!existsSync(themesDir)) return []
+  const themes: unknown[] = []
+  for (const entry of readdirSync(themesDir)) {
+    const themeFile = join(themesDir, entry, 'theme.json')
+    if (existsSync(themeFile)) {
+      try {
+        themes.push(JSON.parse(readFileSync(themeFile, 'utf-8')))
+      } catch {
+        log(`Failed to parse theme: ${themeFile}`)
+      }
+    }
+  }
+  return themes
 })
 
 // ─── Permission Preflight ───

@@ -22,10 +22,14 @@ export default function App() {
   const addAttachments = useSessionStore((s) => s.addAttachments)
   const colors = useColors()
   const setSystemTheme = useThemeStore((s) => s.setSystemTheme)
+  const initThemes = useThemeStore((s) => s.initThemes)
   const expandedUI = useThemeStore((s) => s.expandedUI)
 
   // ─── Theme initialization ───
   useEffect(() => {
+    // Load theme files and apply saved selection
+    initThemes().catch(() => {})
+
     // Get initial OS theme — setSystemTheme respects themeMode (system/light/dark)
     window.clui.getTheme().then(({ isDark }) => {
       setSystemTheme(isDark)
@@ -36,7 +40,7 @@ export default function App() {
       setSystemTheme(isDark)
     })
     return unsub
-  }, [setSystemTheme])
+  }, [setSystemTheme, initThemes])
 
   useEffect(() => {
     useSessionStore.getState().initStaticInfo().then(() => {

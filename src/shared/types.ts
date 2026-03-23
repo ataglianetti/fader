@@ -348,6 +348,7 @@ export const IPC = {
   // Theme
   GET_THEME: 'clui:get-theme',
   THEME_CHANGED: 'clui:theme-changed',
+  LIST_THEMES: 'clui:list-themes',
 
   // Marketplace
   MARKETPLACE_FETCH: 'clui:marketplace-fetch',

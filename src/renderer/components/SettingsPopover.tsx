@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
-import { DotsThree, Bell, ArrowsOutSimple, Moon } from '@phosphor-icons/react'
-import { useThemeStore } from '../theme'
+import { DotsThree, Bell, ArrowsOutSimple, Palette, Sun, Moon, Desktop } from '@phosphor-icons/react'
+import { useThemeStore, type ThemeMode } from '../theme'
 import { useSessionStore } from '../stores/sessionStore'
 import { usePopoverLayer } from './PopoverLayer'
 import { useColors } from '../theme'
@@ -41,6 +41,90 @@ function RowToggle({
   )
 }
 
+/* ─── Mode selector (segmented control) ─── */
+
+function ModeSelector({
+  value,
+  onChange,
+  colors,
+}: {
+  value: ThemeMode
+  onChange: (mode: ThemeMode) => void
+  colors: ReturnType<typeof useColors>
+}) {
+  const modes: { mode: ThemeMode; icon: React.ReactNode; label: string }[] = [
+    { mode: 'light', icon: <Sun size={12} weight="bold" />, label: 'Light' },
+    { mode: 'system', icon: <Desktop size={12} weight="bold" />, label: 'Auto' },
+    { mode: 'dark', icon: <Moon size={12} weight="bold" />, label: 'Dark' },
+  ]
+
+  return (
+    <div
+      className="flex rounded-lg p-0.5 gap-0.5"
+      style={{ background: colors.surfacePrimary }}
+    >
+      {modes.map(({ mode, icon, label }) => (
+        <button
+          key={mode}
+          type="button"
+          onClick={() => onChange(mode)}
+          className="flex items-center gap-1 px-2 py-1 rounded-md text-[11px] font-medium transition-all flex-1 justify-center"
+          style={{
+            background: value === mode ? colors.containerBg : 'transparent',
+            color: value === mode ? colors.textPrimary : colors.textTertiary,
+            boxShadow: value === mode ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+          }}
+        >
+          {icon}
+          {label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+/* ─── Theme picker ─── */
+
+function ThemePicker({
+  selectedId,
+  themes,
+  onSelect,
+  colors,
+}: {
+  selectedId: string
+  themes: { id: string; name: string; dark: { accent: string }; light: { accent: string } }[]
+  onSelect: (id: string) => void
+  colors: ReturnType<typeof useColors>
+}) {
+  const isDark = useThemeStore((s) => s.isDark)
+
+  return (
+    <div className="flex flex-col gap-1">
+      {themes.map((theme) => (
+        <button
+          key={theme.id}
+          type="button"
+          onClick={() => onSelect(theme.id)}
+          className="flex items-center gap-2 px-2 py-1.5 rounded-md text-[12px] transition-colors"
+          style={{
+            background: selectedId === theme.id ? colors.surfacePrimary : 'transparent',
+            color: selectedId === theme.id ? colors.textPrimary : colors.textSecondary,
+          }}
+        >
+          <span
+            className="w-3 h-3 rounded-full flex-shrink-0"
+            style={{
+              background: isDark ? theme.dark.accent : theme.light.accent,
+              border: `1.5px solid ${selectedId === theme.id ? colors.textPrimary : colors.containerBorder}`,
+            }}
+          />
+          <span className="font-medium">{theme.name}</span>
+        </button>
+      ))}
+    </div>
+  )
+}
+
 /* ─── Settings popover ─── */
 
 export function SettingsPopover() {
@@ -48,6 +132,9 @@ export function SettingsPopover() {
   const setSoundEnabled = useThemeStore((s) => s.setSoundEnabled)
   const themeMode = useThemeStore((s) => s.themeMode)
   const setThemeMode = useThemeStore((s) => s.setThemeMode)
+  const selectedThemeId = useThemeStore((s) => s.selectedThemeId)
+  const setTheme = useThemeStore((s) => s.setTheme)
+  const availableThemes = useThemeStore((s) => s.availableThemes)
   const expandedUI = useThemeStore((s) => s.expandedUI)
   const setExpandedUI = useThemeStore((s) => s.setExpandedUI)
   const isExpanded = useSessionStore((s) => s.isExpanded)
@@ -162,6 +249,41 @@ export function SettingsPopover() {
           }}
         >
           <div className="p-3 flex flex-col gap-2.5">
+            {/* Theme selection */}
+            {availableThemes.length > 0 && (
+              <>
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <Palette size={14} style={{ color: colors.textTertiary }} />
+                    <div className="text-[11px] font-medium uppercase tracking-wider" style={{ color: colors.textTertiary }}>
+                      Theme
+                    </div>
+                  </div>
+                  <ThemePicker
+                    selectedId={selectedThemeId}
+                    themes={availableThemes}
+                    onSelect={setTheme}
+                    colors={colors}
+                  />
+                </div>
+
+                <div style={{ height: 1, background: colors.popoverBorder }} />
+              </>
+            )}
+
+            {/* Mode selector */}
+            <div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <Moon size={14} style={{ color: colors.textTertiary }} />
+                <div className="text-[11px] font-medium uppercase tracking-wider" style={{ color: colors.textTertiary }}>
+                  Appearance
+                </div>
+              </div>
+              <ModeSelector value={themeMode} onChange={setThemeMode} colors={colors} />
+            </div>
+
+            <div style={{ height: 1, background: colors.popoverBorder }} />
+
             {/* Full width */}
             <div>
               <div className="flex items-center justify-between gap-3">
@@ -198,26 +320,6 @@ export function SettingsPopover() {
                   onChange={setSoundEnabled}
                   colors={colors}
                   label="Toggle notification sound"
-                />
-              </div>
-            </div>
-
-            <div style={{ height: 1, background: colors.popoverBorder }} />
-
-            {/* Theme */}
-            <div>
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2 min-w-0">
-                  <Moon size={14} style={{ color: colors.textTertiary }} />
-                  <div className="text-[12px] font-medium" style={{ color: colors.textPrimary }}>
-                    Dark theme
-                  </div>
-                </div>
-                <RowToggle
-                  checked={themeMode === 'dark'}
-                  onChange={(next) => setThemeMode(next ? 'dark' : 'light')}
-                  colors={colors}
-                  label="Toggle dark theme"
                 />
               </div>
             </div>

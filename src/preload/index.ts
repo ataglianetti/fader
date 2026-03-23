@@ -32,6 +32,7 @@ export interface CluiAPI {
   uninstallPlugin(pluginName: string): Promise<{ ok: boolean; error?: string }>
   setPermissionMode(mode: string): void
   getTheme(): Promise<{ isDark: boolean }>
+  listThemes(): Promise<any[]>
   onThemeChange(callback: (isDark: boolean) => void): () => void
 
   // ─── Window management ───
@@ -84,6 +85,7 @@ const api: CluiAPI = {
     ipcRenderer.invoke(IPC.MARKETPLACE_UNINSTALL, { pluginName }),
   setPermissionMode: (mode) => ipcRenderer.send(IPC.SET_PERMISSION_MODE, mode),
   getTheme: () => ipcRenderer.invoke(IPC.GET_THEME),
+  listThemes: () => ipcRenderer.invoke(IPC.LIST_THEMES),
   onThemeChange: (callback) => {
     const handler = (_e: Electron.IpcRendererEvent, isDark: boolean) => callback(isDark)
     ipcRenderer.on(IPC.THEME_CHANGED, handler)
