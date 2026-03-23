@@ -4,6 +4,19 @@
 Desktop App: Themeable wrapper for AI coding CLIs (Claude Code, Codex). Electron + React, forked from CLUI-CC.
 Stack: TypeScript + Electron + React
 
+## Vision
+
+Fader is one shell with swappable backends, branded per-context. The owner uses Claude Code personally; APM Music (his employer) uses Codex. Fader wraps both behind a shared Driver interface so the same app serves both — swap a JSON theme file and a config toggle, get a completely different branded experience.
+
+Three layers make this work:
+1. **Theme Layer** — JSON files control colors, typography, branding, window title. No logic in themes. Obsidian-style: drop a file, change the look.
+2. **Driver Layer** — `ClaudeDriver` and `CodexDriver` both implement the same interface. Both CLIs emit NDJSON streams; Fader normalizes the events into a shared internal schema.
+3. **Experience Modes** — "Standard" for knowledge workers (simplified, results-focused) and "Power" for developers (full CLI, streaming output, tool approval). Theme files can set a default mode.
+
+The goal is a shippable internal tool for APM employees, built and maintained by the owner to demonstrate he can ship polished products independently.
+
+See `.planning/PLAN.md` for the phased development plan.
+
 ## Architecture
 Run `/map-codebase` to populate. Reference docs land in `.planning/codebase/`.
 
